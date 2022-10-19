@@ -101,7 +101,7 @@ class _RoomPageState extends State<RoomPage> {
       await context.showErrorDialog(error);
     }
     try {
-      await widget.room.localParticipant?.setMicrophoneEnabled(true);
+      await widget.room.localParticipant?.setMicrophoneEnabled(false);
     } catch (error) {
       print('could not publish audio: $error');
       await context.showErrorDialog(error);

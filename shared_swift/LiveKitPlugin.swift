@@ -72,71 +72,71 @@ public class LiveKitPlugin: NSObject, FlutterPlugin {
     #endif
 
     public func handleConfigureNativeAudio(args: [String: Any?], result: @escaping FlutterResult) {
-
         #if os(macOS)
         result(FlutterMethodNotImplemented)
         #else
-
-        let configuration = RTCAudioSessionConfiguration.webRTC()
-
-        // Category
-        if let string = args["appleAudioCategory"] as? String,
-           let category = categoryMap[string] {
-            configuration.category = category.rawValue
-            print("[LiveKit] Configuring category: ", configuration.category)
-        }
-
-        // CategoryOptions
-        if let strings = args["appleAudioCategoryOptions"] as? [String] {
-            configuration.categoryOptions = categoryOptions(fromFlutter: strings)
-            print("[LiveKit] Configuring categoryOptions: ", strings)
-        }
-
-        // Mode
-        if let string = args["appleAudioMode"] as? String,
-           let mode = modeMap[string] {
-            configuration.mode = mode.rawValue
-            print("[LiveKit] Configuring mode: ", configuration.mode)
-        }
-
-        // get `RTCAudioSession` and lock
-        let rtcSession = RTCAudioSession.sharedInstance()
-        rtcSession.lockForConfiguration()
-
-        var isLocked: Bool = true
-        let unlock = {
-            guard isLocked else {
-                print("[LiveKit] not locked, ignoring unlock")
-                return
-            }
-            rtcSession.unlockForConfiguration()
-            isLocked = false
-        }
-
-        // always `unlock()` when exiting scope, calling multiple times has no side-effect
-        defer {
-            unlock()
-        }
-
-        do {
-            try rtcSession.setConfiguration(configuration, active: true)
-            // unlock here before configuring `AVAudioSession`
-            // unlock()
-            print("[LiveKit] RTCAudioSession Configure success")
-
-            // also configure longFormAudio
-            // let avSession = AVAudioSession.sharedInstance()
-            // try avSession.setCategory(AVAudioSession.Category(rawValue: configuration.category),
-            //                      mode: AVAudioSession.Mode(rawValue: configuration.mode),
-            //                      policy: .default,
-            //                      options: configuration.categoryOptions)
-            // print("[LiveKit] AVAudioSession Configure success")
-
-            result(true)
-        } catch let error {
-            print("[LiveKit] Configure audio error: ", error)
-            result(FlutterError(code: "configure", message: error.localizedDescription, details: nil))
-        }
+//
+//         let configuration = RTCAudioSessionConfiguration.webRTC()
+//
+//         // Category
+//         if let string = args["appleAudioCategory"] as? String,
+//            let category = categoryMap[string] {
+//             configuration.category = category.rawValue
+//             print("[LiveKit] Configuring category: ", configuration.category)
+//         }
+//
+//         // CategoryOptions
+//         if let strings = args["appleAudioCategoryOptions"] as? [String] {
+//             configuration.categoryOptions = categoryOptions(fromFlutter: strings)
+//             print("[LiveKit] Configuring categoryOptions: ", strings)
+//         }
+//
+//         // Mode
+//         if let string = args["appleAudioMode"] as? String,
+//            let mode = modeMap[string] {
+//             configuration.mode = mode.rawValue
+//             print("[LiveKit] Configuring mode: ", configuration.mode)
+//         }
+//
+//         // get `RTCAudioSession` and lock
+//         let rtcSession = RTCAudioSession.sharedInstance()
+//         rtcSession.lockForConfiguration()
+//
+//         var isLocked: Bool = true
+//         let unlock = {
+//             guard isLocked else {
+//                 print("[LiveKit] not locked, ignoring unlock")
+//                 return
+//             }
+//             rtcSession.unlockForConfiguration()
+//             isLocked = false
+//         }
+//
+//         // always `unlock()` when exiting scope, calling multiple times has no side-effect
+//         defer {
+//             unlock()
+//         }
+//
+//         do {
+//             try rtcSession.setConfiguration(configuration, active: true)
+//             // unlock here before configuring `AVAudioSession`
+//             // unlock()
+//             print("[LiveKit] RTCAudioSession Configure success")
+//
+//             // also configure longFormAudio
+//             // let avSession = AVAudioSession.sharedInstance()
+//             // try avSession.setCategory(AVAudioSession.Category(rawValue: configuration.category),
+//             //                      mode: AVAudioSession.Mode(rawValue: configuration.mode),
+//             //                      policy: .default,
+//             //                      options: configuration.categoryOptions)
+//             // print("[LiveKit] AVAudioSession Configure success")
+//
+//             result(true)
+//         } catch let error {
+//             print("[LiveKit] Configure audio error: ", error)
+//             result(FlutterError(code: "configure", message: error.localizedDescription, details: nil))
+//         }
+        result(true)
         #endif
     }
 
